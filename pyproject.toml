@@ -72,6 +72,7 @@ dev = [
     "graphviz>=0.21",
     "cython>=3.0.0",
     "types-pygments>=2.19.0.20251121",
+    "ty>=0.0.17",
 ]
 test = [
     "pytest>=9.0.0, <10.0.0",
@@ -201,3 +202,19 @@ ignore = ["N802", "N815"]
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.*" = ["F401", "F403"]
+
+[tool.ty.environment]
+python-version = "3.12"
+extra-paths = ["stubs"]
+
+[tool.ty.src]
+include = ["src", "stubs"]
+exclude = ["vs-preview", "submodules", "scripts", "stubs/vapoursynth/*"]
+
+[tool.ty.analysis]
+allowed-unresolved-imports = ["vapoursynth.*", "PyQt6.*"]
+
+[tool.ty.rules]
+possibly-unresolved-reference = "ignore"
+type-assertion-failure = "ignore"
+all = "error"

@@ -74,6 +74,12 @@ dev = [
     { include-group = "test" },
     { include-group = "plugins" },
 ]
+pyinstall = [
+    "versioningit>=3.3.0",
+    "pyinstaller",
+    "types-pyinstaller",
+    "pillow>=12.1.1",
+]
 test = [
     "pytest>=9.0.0, <10.0.0",
     "pytest-cov>=7.0.0",
@@ -121,7 +127,7 @@ only-include = [
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/vsview"]
-exclude = ["README.md", "__main__.py"]
+exclude = ["README.md", "__main__.py", "loading_hardcut.png"]
 
 [tool.hatch.build.targets.wheel.hooks.custom]
 path = "scripts/build/hatch_hooks.py"

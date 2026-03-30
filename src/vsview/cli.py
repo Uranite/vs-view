@@ -1,7 +1,11 @@
 import faulthandler
+import io
 import os
 import shlex
 import sys
+from contextlib import suppress
+from functools import cache
+from importlib.util import find_spec
 from itertools import chain
 from logging import DEBUG, getLogger
 from pathlib import Path
@@ -17,6 +21,30 @@ from .assets import load_fonts
 from .logging import console, setup_logging
 
 logger = getLogger(__name__)
+
+
+@cache
+def _has_pyi_splash() -> bool:
+    return "_PYI_SPLASH_IPC" in os.environ and find_spec("pyi_splash") is not None
+
+
+def pyi_splash_update_text(text: str) -> None:
+    if _has_pyi_splash():
+        import pyi_splash  # pyright: ignore[reportMissingModuleSource]
+
+        with suppress(RuntimeError):
+            pyi_splash.update_text(text)
+
+
+def close_pyi_splash() -> None:
+    if _has_pyi_splash():
+        import pyi_splash  # pyright: ignore[reportMissingModuleSource]
+
+        with suppress(RuntimeError):
+            pyi_splash.close()
+
+
+pyi_splash_update_text("Initializing...")
 
 app = Typer(
     name="vsview",
@@ -99,6 +127,17 @@ def parse_script_args(args: list[str]) -> dict[str, str]:
         parsed[key] = value
 
     return parsed
+
+
+def enable_faulthandler() -> None:
+    for stream in (console.file, sys.stderr, sys.__stderr__):
+        if stream is None:
+            continue
+
+        with suppress(AttributeError, OSError, RuntimeError, ValueError, io.UnsupportedOperation):
+            stream.fileno()
+            faulthandler.enable(file=stream)
+            return
 
 
 input_file_arg = Argument(
@@ -218,7 +257,7 @@ def vsview_cli(
     verbose: Annotated[int, verbose_opt] = 0,
 ) -> None:
     # Enable faulthandler to get stack traces on segfaults
-    faulthandler.enable(file=console.file)
+    enable_faulthandler()
 
     # Setup env vars
     os.environ["JETPYTOOLS_NO_COLOR"] = "1"
@@ -229,6 +268,8 @@ def vsview_cli(
 
     # Set signal handler to default to allow Ctrl+C to work
     signal(SIGINT, SIG_DFL)
+
+    pyi_splash_update_text("Creating window...")
 
     app = Application(
         [sys.argv[0], *chain.from_iterable(shlex.split(q) for q in qt_arg or [])],
@@ -243,6 +284,7 @@ def vsview_cli(
 
     if files:
         extra_args = parse_script_args(arg or [])
+        close_pyi_splash()
         main_window.show()
         for file in files:
             if file.suffix in [".py", ".vpy"]:
@@ -254,6 +296,7 @@ def vsview_cli(
         main_window.show()
         main_window.repaint()
         app.processEvents()
+        close_pyi_splash()
 
         # Now create default workspaces
         main_window.script_subaction.trigger()

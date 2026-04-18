@@ -94,23 +94,77 @@ jobs:
           webhook-url: ${{ secrets.WEBHOOK_URL }}
 
   vsview-cli-publish:
+    name: Publish vsview-cli to PyPI
     needs: [prepare, vsview-cli-build]
     if: needs.prepare.outputs.build-workflow == 'vsview-cli'
+    runs-on: ubuntu-latest
+
     permissions:
       contents: read
       id-token: write
-    uses: ./.github/workflows/cd-publish-native.yml
-    with:
-      package-name: vsview-cli
-      python-version: ${{ needs.prepare.outputs.python-version }}
+
+    environment:
+      name: pypi-vsview-cli
+      url: https://pypi.org/p/vsview-cli
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          python-version: ${{ needs.prepare.outputs.python-version }}
+
+      - name: Check the output
+        run: uvx twine check --strict dist/*
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # release/v1
+
+      - name: Post webhook for failure
+        if: failure()
+        uses: Jaded-Encoding-Thaumaturgy/discord-failure-notifier@fb70088dc5982abfac889fdded8603be4f5823b6 # v1
+        with:
+          webhook-url: ${{ secrets.WEBHOOK_URL }}
 
   vspackrgb-publish:
+    name: Publish vspackrgb to PyPI
     needs: [prepare, vspackrgb-build]
     if: needs.prepare.outputs.build-workflow == 'vspackrgb'
+    runs-on: ubuntu-latest
+
     permissions:
       contents: read
       id-token: write
-    uses: ./.github/workflows/cd-publish-native.yml
-    with:
-      package-name: vspackrgb
-      python-version: ${{ needs.prepare.outputs.python-version }}
+
+    environment:
+      name: pypi-vspackrgb
+      url: https://pypi.org/p/vspackrgb
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          python-version: ${{ needs.prepare.outputs.python-version }}
+
+      - name: Check the output
+        run: uvx twine check --strict dist/*
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # release/v1
+
+      - name: Post webhook for failure
+        if: failure()
+        uses: Jaded-Encoding-Thaumaturgy/discord-failure-notifier@fb70088dc5982abfac889fdded8603be4f5823b6 # v1
+        with:
+          webhook-url: ${{ secrets.WEBHOOK_URL }}

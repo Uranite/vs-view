@@ -42,7 +42,7 @@ jobs:
 
       - name: Inject version from tag
         if: startsWith(github.ref, 'refs/tags/vsview-cli/v')
-        shell: uv run --no-sync --with toml-rs {0}
+        shell: uv run --no-sync --with toml-rs python {0}
         run: |
           import os
           import pathlib

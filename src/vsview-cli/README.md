@@ -2,13 +2,7 @@
 
 Internal Rust-based CLI module for [VSView](https://github.com/Jaded-Encoding-Thaumaturgy/vs-view).
 
-Powering by the `clap` library, `vsview-cli` provides the command-line interface infrastructure for VSView.
-
-## Installation
-
-```bash
-uv pip install vsview-cli
-```
+Powered by the `clap` library, `vsview-cli` provides the command-line interface infrastructure for VSView.
 
 ## Building
 

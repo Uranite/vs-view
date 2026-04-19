@@ -143,9 +143,10 @@ dirty = "{next_version}+dirty"
 distance-dirty = "{next_version}.dev{distance}+{vcs}{rev}.dirty"
 
 [tool.uv.workspace]
-members = ["src/vspackrgb", "src/vsview-cli", "src/plugins/*"]
+members = ["src/vspackrgb", "src/vsview-cli", "src/plugins/*", "src/pyapp"]
 
 [tool.uv.sources]
+vsview-pyapp = { workspace = true }
 vspackrgb = { workspace = true }
 vsview-cli = { workspace = true }
 vsview-fftspectrum = { workspace = true }

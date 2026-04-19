@@ -15,6 +15,7 @@ members = [
     "vsview-comp",
     "vsview-fftspectrum",
     "vsview-frameprops-extended",
+    "vsview-pyapp",
     "vsview-split-planes",
 ]
 
@@ -1287,6 +1288,15 @@ wheels = [
 ]
 
 [[package]]
+name = "python-dotenv"
+version = "1.2.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/82/ed/0301aeeac3e5353ef3d94b6ec08bbcabd04a72018415dcb29e588514bba8/python_dotenv-1.2.2.tar.gz", hash = "sha256:2c371a91fbd7ba082c2c1dc1f8bf89ca22564a087c2c287cd9b662adde799cf3", size = 50135, upload-time = "2026-03-01T16:00:26.196Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/0b/d7/1959b9648791274998a9c3526f6d0ec8fd2233e4d4acce81bbae76b44b2a/python_dotenv-1.2.2-py3-none-any.whl", hash = "sha256:1d8214789a24de455a8b8bd8ae6fe3c6b69a5e3d64aa8a8e5d68e694bbcb285a", size = 22101, upload-time = "2026-03-01T16:00:25.09Z" },
+]
+
+[[package]]
 name = "pyvirtualdisplay"
 version = "3.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1432,6 +1442,20 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c0/8f/0722ca900cc807c13a6a0c696dacf35430f72e0ec571c4275d2371fca3e9/rich-15.0.0.tar.gz", hash = "sha256:edd07a4824c6b40189fb7ac9bc4c52536e9780fbbfbddf6f1e2502c31b068c36", size = 230680, upload-time = "2026-04-12T08:24:00.75Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/82/3b/64d4899d73f91ba49a8c18a8ff3f0ea8f1c1d75481760df8c68ef5235bf5/rich-15.0.0-py3-none-any.whl", hash = "sha256:33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb", size = 310654, upload-time = "2026-04-12T08:24:02.83Z" },
+]
+
+[[package]]
+name = "rich-click"
+version = "1.9.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "click" },
+    { name = "colorama", marker = "sys_platform == 'win32'" },
+    { name = "rich" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/04/27/091e140ea834272188e63f8dd6faac1f5c687582b687197b3e0ec3c78ebf/rich_click-1.9.7.tar.gz", hash = "sha256:022997c1e30731995bdbc8ec2f82819340d42543237f033a003c7b1f843fc5dc", size = 74838, upload-time = "2026-01-31T04:29:27.707Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ca/e5/d708d262b600a352abe01c2ae360d8ff75b0af819b78e9af293191d928e6/rich_click-1.9.7-py3-none-any.whl", hash = "sha256:2f99120fca78f536e07b114d3b60333bc4bb2a0969053b1250869bcdc1b5351b", size = 71491, upload-time = "2026-01-31T04:29:26.777Z" },
 ]
 
 [[package]]
@@ -1948,6 +1972,23 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/1d/32/c21b4c70af267c936691718eac512257dc16d204e780a6fe45ab60efb3e1/vsview_nativeres-0.2.0.tar.gz", hash = "sha256:c8e173fd7d51d837144ed9782ee20a863b03449a85e8aaedc2c39d79bbea38b8", size = 15553, upload-time = "2026-03-21T16:55:46.743Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/7f/33/3ff429e65a278075ce47cce375b3c37425159565f7b940b212aca33eb357/vsview_nativeres-0.2.0-py3-none-any.whl", hash = "sha256:04d0d1e7cd5b2653d8c1b3f9b12f66fbac82c808c6d065572d834bad0c517feb", size = 16962, upload-time = "2026-03-21T16:55:45.113Z" },
+]
+
+[[package]]
+name = "vsview-pyapp"
+version = "0.1.0"
+source = { editable = "src/pyapp" }
+dependencies = [
+    { name = "jetpytools" },
+    { name = "python-dotenv" },
+    { name = "rich-click" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "jetpytools" },
+    { name = "python-dotenv", specifier = ">=1.2.2" },
+    { name = "rich-click", specifier = ">=1.8.6" },
 ]
 
 [[package]]

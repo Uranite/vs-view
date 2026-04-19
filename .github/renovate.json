@@ -42,5 +42,20 @@
       ],
       "groupName": "Rust dependencies"
     }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "src/pyapp/\\.env\\.template$"
+      ],
+      "matchStrings": [
+        "PYAPP_UV_VERSION\\s*=\\s*(?<currentValue>.*)"
+      ],
+      "depNameTemplate": "astral-sh/uv",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver",
+      "groupName": "uv"
+    }
   ]
 }

@@ -301,7 +301,6 @@ class FramePropsTreeView(QTreeView, FramePropsViewMixin):
     def update_props(self, props: Mapping[str, Any]) -> None:
         self.current_model.load_props(props)
         self.expandAll()
-        self.resizeColumnToContents(0)
 
     def set_show_formatted(self, show: bool) -> None:
         if show:

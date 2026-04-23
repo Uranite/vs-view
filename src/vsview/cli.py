@@ -93,21 +93,16 @@ def main(argv: Sequence[str] | None = None) -> None:
     load_fonts()
 
     main_window = MainWindow()
-    main_window.ensurePolished()
+    # Show window first for faster perceived startup
+    main_window.show()
 
     if cfg.files:
-        main_window.show()
         for file in cfg.files:
             if file.suffix in [".py", ".vpy"]:
                 main_window.load_new_script(file, **cfg.arg)
             else:
                 main_window.load_new_file(file)
     else:
-        # Show window first for faster perceived startup
-        main_window.show()
-        main_window.repaint()
-        app.processEvents()
-
         # Now create default workspaces
         main_window.script_subaction.trigger()
         main_window.file_subaction.trigger()

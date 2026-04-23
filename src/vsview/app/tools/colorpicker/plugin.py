@@ -235,7 +235,7 @@ class ColorPickerPlugin(WidgetPluginBase[GlobalSettings], IconReloadMixin):
         if self.tracking == TrackingState.ACTIVE:
             # Force cursor shape & refresh current cursor position
             self.api.current_view.viewport.set_cursor(Qt.CursorShape.CrossCursor)
-            self.update_labels(self.api.current_view.viewport.map_from_global(QCursor.pos()))
+            self.update_labels()
         return None
 
     def on_view_context_menu(self, event: QContextMenuEvent) -> None:
@@ -307,11 +307,14 @@ class ColorPickerPlugin(WidgetPluginBase[GlobalSettings], IconReloadMixin):
             copy_btns_dict[name] = copy_btn
 
     @run_in_loop
-    def update_labels(self, local_pos: QPoint) -> None:
+    def update_labels(self, local_pos: QPoint | None = None) -> None:
         with self.outputs[self.api.current_voutput].get_frame(self.api.current_frame) as vsframe:
             self.update_format_strings(vsframe)
 
-        pos_f = self.api.current_view.map_to_scene(local_pos)
+        if local_pos is None:
+            local_pos = self.api.current_view.viewport.cursor_pos
+
+        pos_f = self.api.current_view.map_to_image(local_pos)
         pos = QPoint(int(pos_f.x()), int(pos_f.y()))
 
         if (image := self.api.current_view.image).isNull() or not image.valid(pos):

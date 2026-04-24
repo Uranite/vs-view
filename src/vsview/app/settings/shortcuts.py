@@ -12,8 +12,9 @@ from PySide6.QtGui import QAction, QKeySequence, QShortcut
 from PySide6.QtWidgets import QWidget
 
 from ..utils import QObjectSet
+from .action import ActionDefinition, ActionID
 from .manager import SettingsManager
-from .models import ActionDefinition, ActionID, ShortcutConfig
+from .models import ShortcutConfig
 
 logger = getLogger(__name__)
 

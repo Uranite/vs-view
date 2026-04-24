@@ -1,14 +1,13 @@
 # Settings Module
 
-**Single source of truth**: Everything is defined in `models.py`:
-
-- Shortcuts: `ActionDefinition` objects (id, label, default key)
-- Settings: Model fields use `Annotated` types with UI metadata + defaults
-- Widget behavior: Each `WidgetMetadata` subclass handles its own widget creation and value handling
+- **Actions & Shortcuts**: Defined in `action.py` and managed by `ShortcutManager` in `shortcuts.py`.
+- **Metadata**: UI metadata for settings (widgets, labels, transforms) is defined in `metadata.py`.
+- **Models**: Pydantic models for settings storage are in `models.py`.
+- **GUI**: The settings dialog is in `dialog.py`, while custom widgets are in `widgets.py`.
 
 ## Adding a Shortcut
 
-### 1. Add ActionID (`models.py`)
+### 1. Add ActionID (`action.py`)
 
 ```python
 class ActionID(StrEnum):
@@ -32,9 +31,11 @@ ShortcutManager.register_shortcut(ActionID.MY_ACTION, callback, parent_widget)
 
 ## Adding a Setting
 
-Define a field with annotation and default value in a `BaseModel`.
+Define a field with annotation and default value in a `BaseModel` in `models.py`.
 
 ```python
+from .metadata import Checkbox
+
 class GlobalSettings(BaseModel):
     __section__ = "General"
 
@@ -45,14 +46,18 @@ class GlobalSettings(BaseModel):
 
 ## Widget Types
 
-| Type            | Annotation Example                                                      |
-| --------------- | ----------------------------------------------------------------------- |
-| `Checkbox`      | `Annotated[bool, Checkbox(label="Enabled", text="Check me")]`           |
-| `Dropdown`      | `Annotated[str, Dropdown(label="Mode", items=[("A", "a")])]`            |
-| `Spin`          | `Annotated[int, Spin(label="Size", min=0, max=100, suffix="px")]`       |
-| `DoubleSpin`    | `Annotated[float, DoubleSpin(label="Val", min=0, max=1)]`               |
-| `PlainTextEdit` | `Annotated[list[float], PlainTextEdit(label="List", value_type=float)]` |
-| `TimeEdit`      | `Annotated[QTime, TimeEdit(label="Interval", display_format="mm:ss")]`  |
+Defined in `metadata.py`:
+
+| Type             | Annotation Example                                                           |
+| ---------------- | ---------------------------------------------------------------------------- |
+| `Checkbox`       | `Annotated[bool, Checkbox(label="Enabled", text="Check me")]`                |
+| `Dropdown`       | `Annotated[str, Dropdown(label="Mode", items=[("A", "a")])]`                 |
+| `Spin`           | `Annotated[int, Spin(label="Size", min=0, max=100, suffix="px")]`            |
+| `DoubleSpin`     | `Annotated[float, DoubleSpin(label="Val", min=0, max=1)]`                    |
+| `PlainTextEdit`  | `Annotated[list[float], PlainTextEdit(label="List", value_type=float)]`      |
+| `WidgetTimeEdit` | `Annotated[QTime, WidgetTimeEdit(label="Interval", display_format="mm:ss")]` |
+| `ColorPicker`    | `Annotated[str, ColorPicker(label="Color")]`                                 |
+| `Login`          | `Annotated[str, Login(label="API Key", namespace="...", context="...")]`     |
 
 ### Value Transforms (for unit conversion)
 
@@ -77,24 +82,36 @@ drag_timeout: Annotated[
 %%{ init: { 'flowchart': { 'curve': 'linear' } } }%%
 flowchart TD
     dialog["dialog.py<br/><i>settings UI</i>"]
-    enums["enums.py<br/><i>StrEnum</i>"]
-    models["models.py<br/><i>ActionID, Settings, WidgetMetadata, Registries</i>"]
+    enums["enums.py<br/><i>Shared Enums</i>"]
+    action["action.py<br/><i>ActionID, ActionDefinition</i>"]
+    metadata["metadata.py<br/><i>WidgetMetadata, Checkbox, etc.</i>"]
+    widgets["widgets.py<br/><i>Custom Qt widgets</i>"]
+    models["models.py<br/><i>Settings Models (Pydantic)</i>"]
     manager["manager.py<br/><i>load/save to disk</i>"]
     shortcuts["shortcuts.py<br/><i>hot-reload shortcuts</i>"]
+    secrets["secrets.py<br/><i>SecretsManager</i>"]
 
     enums --> models
+    action --> models
+    metadata --> models
+    widgets --> metadata
     models --> shortcuts
     models --> manager
     models --> dialog
     manager --> shortcuts
+    secrets --> metadata
 ```
 
 ### File Responsibilities
 
-| File           | Purpose                                                                                                             |
-| -------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `enums.py`     | Shared enums used across the settings system.                                                                       |
-| `models.py`    | Single source of truth. Definitions of actions, widget metadata, and Pydantic settings models.                      |
-| `manager.py`   | `SettingsManager` singleton - Handles persistent storage (Global in app dir, Local in `.vsjet/`).                   |
-| `shortcuts.py` | `ShortcutManager` singleton - Manages `QShortcut`/`QAction` lifecycle, hot-reloading keys, and detecting conflicts. |
-| `dialog.py`    | `SettingsDialog` - Introspects models via `extract_settings` to build the UI dynamically with collapsible sections. |
+| File           | Purpose                                                                                          |
+| -------------- | ------------------------------------------------------------------------------------------------ |
+| `widgets.py`   | Specialized Qt widgets used within the settings dialog.                                          |
+| `secrets.py`   | `SecretsManager` - Secure storage for sensitive data via OS keyring.                             |
+| `enums.py`     | Shared enumerations used across the settings system.                                             |
+| `action.py`    | Defines `ActionID` enum and `ActionDefinition` for shortcuts.                                    |
+| `metadata.py`  | UI metadata classes (`WidgetMetadata`, `Checkbox`, etc.) that link models to widgets.            |
+| `models.py`    | Pydantic settings models for the application and plugins.                                        |
+| `dialog.py`    | `SettingsDialog` - Builds the UI dynamically by introspecting models.                            |
+| `manager.py`   | `SettingsManager` singleton - Handles persistent JSON storage (Global and Local).                |
+| `shortcuts.py` | `ShortcutManager` singleton - Manages shortcut lifecycle, hot-reloading, and conflict detection. |

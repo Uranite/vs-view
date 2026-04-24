@@ -1,7 +1,7 @@
 """Settings submodule for vsview."""
 
+from .action import ActionID
 from .manager import SettingsManager
-from .models import ActionID
 from .secrets import SecretsError, SecretsManager
 from .shortcuts import ShortcutManager
 

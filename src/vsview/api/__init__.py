@@ -15,23 +15,21 @@ from ..app.plugins import (
     WidgetPluginBase,
     hookimpl,
 )
-from ..app.settings.models import (
-    ActionDefinition,
+from ..app.settings.action import ActionDefinition
+from ..app.settings.metadata import (
     Checkbox,
     ColorPicker,
-    ColorPickerInput,
     DoubleSpin,
     Dropdown,
     LineEdit,
     ListEdit,
-    ListEditWidget,
     Login,
-    LoginCredentialsInput,
     PlainTextEdit,
     Spin,
     WidgetMetadata,
     WidgetTimeEdit,
 )
+from ..app.settings.widgets import ColorPickerInput, ListEditWidget, LoginCredentialsInput
 from ..app.views import OutputInfo
 from ..app.views.components import AbstractTableModel, Accordion, AnimatedToggle, NonClosingMenu, SegmentedControl
 from ..app.views.timeline import FrameEdit, TimeEdit

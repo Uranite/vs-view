@@ -35,7 +35,7 @@ from shiboken6 import Shiboken
 
 from vsview.app.packing import Packer
 from vsview.app.settings import SettingsManager, ShortcutManager
-from vsview.app.settings.models import ActionDefinition
+from vsview.app.settings.action import ActionDefinition
 from vsview.app.views.video import BaseGraphicsView
 from vsview.types import Frame, Time
 from vsview.vsenv.loop import run_in_loop

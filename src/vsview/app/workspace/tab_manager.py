@@ -6,7 +6,7 @@ from enum import IntEnum
 from functools import partial
 from itertools import cycle
 from logging import getLogger
-from typing import Self, overload
+from typing import TYPE_CHECKING, Self, overload
 
 from jetpytools import fallback
 from PySide6.QtCore import QSignalBlocker, QSize, Qt, QTimer, Signal
@@ -17,11 +17,13 @@ from vapoursynth import VideoFrame
 from ...assets import IconName
 from ...vsenv import run_in_loop
 from ..icon import IconReloadMixin
-from ..outputs import VideoOutput
 from ..plugins.api import PluginAPI
 from ..settings import ActionID, SettingsManager, ShortcutManager
 from ..views import GraphicsView
 from ..views.tab import TabLabel, TabViewWidget
+
+if TYPE_CHECKING:
+    from ..outputs import VideoOutput
 
 logger = getLogger(__name__)
 

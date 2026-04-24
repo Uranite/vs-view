@@ -31,7 +31,6 @@ from vsengine.vpy import ExecutionError, Script, load_code, load_script
 from ...vsenv import gc_collect, run_in_background, run_in_loop, unset_environment
 from ..outputs import AudioOutput, OutputsManager, VideoOutput
 from ..plugins.api import PluginAPI, WidgetPluginBase
-from ..plugins.manager import PluginManager
 from ..settings import ActionID, ShortcutManager
 from ..views import PluginDock, PluginSplitter
 from ..views.components import CustomLoadingPage, DockButton
@@ -282,6 +281,8 @@ class LoaderWorkspace[T](BaseWorkspace):
     def loader(self) -> None: ...
 
     def init_load(self, frame: int | None = None, time: float | None = None, tab_index: int | None = None) -> None:
+        from ..plugins.manager import PluginManager
+
         PluginManager.wait_for_loaded()
 
     @run_in_background(name="LoadContent")
@@ -729,6 +730,8 @@ class LoaderWorkspace[T](BaseWorkspace):
             self.plugins_loaded = True
 
     def _setup_docks(self) -> None:
+        from ..plugins.manager import PluginManager
+
         for plugin_type in PluginManager.tooldocks:
             dock = PluginDock(plugin_type.display_name, plugin_type.identifier, self.dock_container)
             plugin_obj = plugin_type(dock, self.api)
@@ -748,6 +751,8 @@ class LoaderWorkspace[T](BaseWorkspace):
         self.dock_toggle_btn.setChecked(False)
 
     def _setup_panels(self) -> None:
+        from ..plugins.manager import PluginManager
+
         for i, plugin_type in enumerate(PluginManager.toolpanels):
             plugin_obj = plugin_type(self.plugin_splitter.plugin_tabs, self.api)
 

@@ -12,7 +12,6 @@ from typing import TYPE_CHECKING, Any, Literal
 import vapoursynth as vs
 from jetpytools import cround
 
-from ..plugins.manager import PluginManager
 from ..settings import SettingsManager
 from ..utils import LRUCache, cache_clip
 from .packing import AlphaNotImplementedError, CythonPacker, Packer
@@ -100,6 +99,8 @@ class VideoOutput:
         )
 
     def prepare_video(self, api: PluginAPI) -> None:
+        from ..plugins.manager import PluginManager
+
         clip = self.vs_output.clip.std.ModifyFrame(self.vs_output.clip, self._get_props_on_render)
 
         if PluginManager.video_processor:

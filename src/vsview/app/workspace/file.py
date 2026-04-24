@@ -19,7 +19,6 @@ from vapoursynth import VideoNode
 from ...api._helpers import output_metadata
 from ...assets import IconName
 from ...vsenv import run_in_loop
-from ..plugins.manager import PluginManager
 from ..settings import SettingsManager
 from ..settings.models import LocalSettings
 from ..views.timeline import Time
@@ -169,6 +168,8 @@ class GenericFileWorkspace(LoaderWorkspace[Path]):
         self.local_settings.layout.dock_state = b64encode(self.dock_container.saveState().data()).decode("ascii")
 
     def init_load(self, frame: int | None = None, time: float | None = None, tab_index: int | None = None) -> None:
+        from ..plugins.manager import PluginManager
+
         self.tab_manager.sync_playhead_btn.set_state(state=self.local_settings.synchronization.sync_playhead)
         self.tab_manager.sync_zoom_btn.setChecked(self.local_settings.synchronization.sync_zoom)
         self.tab_manager.sync_scroll_btn.setChecked(self.local_settings.synchronization.sync_scroll)

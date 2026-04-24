@@ -15,7 +15,6 @@ from PySide6.QtMultimedia import QAudio, QAudioFormat, QAudioSink
 from PySide6.QtWidgets import QApplication
 
 from ...vsenv import run_in_loop
-from ..plugins.manager import PluginManager
 from ..settings import SettingsManager
 from ..utils import LRUCache
 
@@ -110,6 +109,8 @@ class AudioOutput:
         self.sink.setVolume(self._volume)
 
     def prepare_audio(self, delay_s: float, api: PluginAPI) -> None:
+        from ..plugins.manager import PluginManager
+
         audio = self._cache_delay_audio.get(delay_s)
 
         if audio is None:

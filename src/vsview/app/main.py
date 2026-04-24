@@ -51,7 +51,6 @@ from vsengine.loops import set_loop
 
 from ..assets import IconReloadMixin, app_icon
 from ..vsenv import QtEventLoop, gc_collect, get_policy, unregister_policy
-from .plugins.manager import PluginManager
 from .settings import ActionID, SecretsManager, SettingsManager, ShortcutManager
 from .settings.dialog import SettingsDialog, ShortcutEditor
 from .settings.models import WindowGeometry
@@ -132,11 +131,14 @@ class Application(QApplication):
 
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
+        from .plugins.manager import PluginManager
+
         super().__init__()
         self.setWindowTitle("VS View")
         self.setWindowIcon(app_icon())
 
         self.settings_manager = SettingsManager()
+        self.plugin_manager = PluginManager()
 
         self._setup_ui()
         self._setup_shortcuts()
@@ -240,7 +242,7 @@ class MainWindow(QMainWindow):
         self.statusBar().addWidget(self.status_widget, 1)
         self.status_widget.set_ready()
 
-        PluginManager.call_when_loaded(self._init_view_tools_settings)
+        self.plugin_manager.call_when_loaded(self._init_view_tools_settings)
 
         # Track currently connected workspace for status bar
         self._connected_workspace: LoaderWorkspace[Any] | None = None
@@ -396,10 +398,10 @@ class MainWindow(QMainWindow):
         btn.workspace.load_btn.click()
 
     def _on_open_settings_when_plugins_loaded(self) -> None:
-        if not PluginManager.loaded:
+        if not self.plugin_manager.loaded:
             logger.warning("Plugins are still loading...")
 
-        PluginManager.call_when_loaded(self._on_open_settings)
+        self.plugin_manager.call_when_loaded(self._on_open_settings)
 
     def _on_open_settings(self) -> None:
         # Get current workspace's script path if available
@@ -469,10 +471,10 @@ class MainWindow(QMainWindow):
     def _init_view_tools_settings(self) -> None:
         view_tools = self.settings_manager.global_settings.view_tools
 
-        for dock in PluginManager.tooldocks:
+        for dock in self.plugin_manager.tooldocks:
             view_tools.docks.setdefault(dock.identifier, True)
 
-        for panel in PluginManager.toolpanels:
+        for panel in self.plugin_manager.toolpanels:
             view_tools.panels.setdefault(panel.identifier, True)
 
     def _populate_plugin_menu(
@@ -506,20 +508,20 @@ class MainWindow(QMainWindow):
             menu.addAction(action)
 
     def _populate_tooldocks_menu(self) -> None:
-        PluginManager.call_when_loaded(
+        self.plugin_manager.call_when_loaded(
             lambda: self._populate_plugin_menu(
                 self.view_tooldocks_submenu,
-                PluginManager.tooldocks,
+                self.plugin_manager.tooldocks,
                 self.settings_manager.global_settings.view_tools.docks,
                 lambda wk, idx, checked: wk.docks[idx].setVisible(checked) if wk.dock_toggle_btn.isChecked() else None,
             )
         )
 
     def _populate_toolpanels_menu(self) -> None:
-        PluginManager.call_when_loaded(
+        self.plugin_manager.call_when_loaded(
             lambda: self._populate_plugin_menu(
                 self.view_toolpanels_submenu,
-                PluginManager.toolpanels,
+                self.plugin_manager.toolpanels,
                 self.settings_manager.global_settings.view_tools.panels,
                 lambda wk, idx, checked: wk.plugin_splitter.plugin_tabs.setTabVisible(idx, checked),
             )

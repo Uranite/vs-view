@@ -13,9 +13,9 @@ import vapoursynth as vs
 from jetpytools import cround
 
 from ...types import Frame, Time
+from ..packing import AlphaNotImplementedError, CythonPacker, Packer
 from ..settings import SettingsManager
 from ..utils import LRUCache, cache_clip
-from .packing import AlphaNotImplementedError, CythonPacker, Packer
 
 if TYPE_CHECKING:
     from ..plugins import PluginAPI

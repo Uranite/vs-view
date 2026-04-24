@@ -6,8 +6,8 @@ from typing import TYPE_CHECKING, Any
 
 from vapoursynth import AudioNode, VideoOutputTuple
 
+from ..packing import Packer, get_packer
 from .audio import AudioOutput
-from .packing import Packer, get_packer
 from .video import VideoOutput
 
 if TYPE_CHECKING:

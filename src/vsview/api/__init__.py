@@ -1,7 +1,7 @@
 """API for vsview"""
 
 from ..app.icon import IconName, IconReloadMixin, load_icon
-from ..app.outputs import Packer, get_packer
+from ..app.packing import Packer, get_packer
 from ..app.plugins import (
     AudioOutputProxy,
     GraphicsViewProxy,

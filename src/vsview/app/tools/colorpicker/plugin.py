@@ -27,8 +27,16 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from vsview.api import IconName, IconReloadMixin, PluginAPI, Spin, VideoOutputProxy, WidgetPluginBase, run_in_loop
-from vsview.app.outputs.packing import Packer
+from vsview.api import (
+    IconName,
+    IconReloadMixin,
+    Packer,
+    PluginAPI,
+    Spin,
+    VideoOutputProxy,
+    WidgetPluginBase,
+    run_in_loop,
+)
 from vsview.app.utils import cache_clip
 from vsview.assets.utils import get_monospace_font
 

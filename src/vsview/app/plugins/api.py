@@ -33,7 +33,7 @@ from PySide6.QtGui import (
 from PySide6.QtWidgets import QGraphicsView, QWidget
 from shiboken6 import Shiboken
 
-from vsview.app.outputs import Packer
+from vsview.app.packing import Packer
 from vsview.app.settings import SettingsManager, ShortcutManager
 from vsview.app.settings.models import ActionDefinition
 from vsview.app.views.video import BaseGraphicsView

@@ -13,8 +13,8 @@ import vapoursynth as vs
 from PySide6.QtGui import QImage
 from vspackrgb.helpers import get_plane_buffer, packrgb
 
-from ...vsenv import create_environment
-from ..settings import SettingsManager
+from ..vsenv import create_environment
+from .settings import SettingsManager
 
 logger = getLogger(__name__)
 

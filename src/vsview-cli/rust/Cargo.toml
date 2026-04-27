@@ -1,6 +1,5 @@
 [package]
 name = "vsview-cli"
-version = "0.0.0"                                                    # Updated by GitHub Actions
 edition = "2024"
 description = "Internal Rust-based CLI module for VSView"
 license = "Unlicense"

@@ -4,6 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "vsview-cli"
+version = "1.0.0"
 description = "Internal Rust-based CLI module for VSView"
 readme = "README.md"
 license = "Unlicense"
@@ -26,7 +27,6 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = []
-dynamic = ["version"]
 
 [project.urls]
 "Source Code" = "https://github.com/Jaded-Encoding-Thaumaturgy/vs-view/tree/main/src/vsview_cli"

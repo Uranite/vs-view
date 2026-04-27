@@ -33,25 +33,6 @@ jobs:
         with:
           enable-cache: true
 
-      - name: Inject version from tag
-        if: startsWith(github.ref, 'refs/tags/vsview-cli/v')
-        shell: uv run --no-sync --with toml-rs python {0}
-        run: |
-          import os
-          import pathlib
-          import toml_rs
-
-          ref = os.environ.get("GITHUB_REF", "")
-          version = ref[len("refs/tags/vsview-cli/v") :]
-
-          print(f"Injecting version {version} into Cargo.toml")
-
-          path = pathlib.Path("src/vsview-cli/rust/Cargo.toml")
-
-          data = toml_rs.loads(path.read_text())
-          data["package"]["version"] = version
-          path.write_text(toml_rs.dumps(data))
-
       - name: Build sdist
         if: matrix.os == 'macos-latest'
         run: uv build --package vsview-cli --sdist --out-dir dist --clear

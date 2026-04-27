@@ -1928,6 +1928,7 @@ requires-dist = [{ name = "vsview", editable = "." }]
 
 [[package]]
 name = "vsview-cli"
+version = "1.0.0"
 source = { editable = "src/vsview-cli" }
 
 [package.dev-dependencies]

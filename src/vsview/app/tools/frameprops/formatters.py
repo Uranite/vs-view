@@ -51,11 +51,16 @@ class FormatterProperty:
     def default_format(value: Any, repr_frame: bool = False) -> str:
         match value:
             case bytes():
+                max_len = 128
+                if len(value) > max_len:
+                    truncated = value[:max_len].decode("utf-8", errors="ignore")
+                    return f"{truncated}..."
                 try:
                     return value.decode("utf-8")
                 except UnicodeDecodeError as e:
                     logger.log(DEBUG - 1, "Can't decode value %r, with the error %r", value, str(e))
-                    return str(value)
+                    res = repr(value)
+                    return f"{res[:max_len]}..." if len(res) > max_len else res
             case float():
                 return f"{value:.6g}"
             case VideoFrame():

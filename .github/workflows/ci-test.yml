@@ -34,7 +34,6 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.12", "3.13", "3.14"]
-        vapoursynth-version: [73]
 
     steps:
       - name: Checkout repository
@@ -45,12 +44,6 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           enable-cache: true
-
-      - name: Set up VapourSynth ${{ matrix.vapoursynth-version }}
-        uses: Jaded-Encoding-Thaumaturgy/setup-vapoursynth@e71ddd35a59836662e7df2c60490a586516d8384 # v1
-        with:
-          vapoursynth-version: ${{ matrix.vapoursynth-version }}
-          python-version: ${{ matrix.python-version }}
 
       - name: Install system dependencies
         run: |

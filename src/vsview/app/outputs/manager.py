@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any
 
 from vapoursynth import AudioNode, VideoOutputTuple
 
-from ..packing import Packer, get_packer
+from ..packing import Packer
 from .audio import AudioOutput
 from .video import VideoOutput
 
@@ -83,7 +83,7 @@ class OutputsManager:
         """
 
         voutputs = list[VideoOutput]()
-        self._packer = get_packer()
+        self._packer = Packer(8)
 
         logger.debug("Configured video packer: %s (%s-bit)", self.packer.name, self.packer.bit_depth)
 

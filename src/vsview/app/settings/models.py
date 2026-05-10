@@ -374,21 +374,6 @@ class ViewSettings(BaseModel):
         ),
     ] = -1
 
-    packing_method: Annotated[
-        str,
-        Dropdown(
-            label="Packing Method",
-            items=[
-                ("Auto", "auto"),
-                ("vszip", "vszip"),
-                ("Cython", "cython"),
-                ("NumPy", "numpy"),
-                ("Python (slow)", "python"),
-            ],
-            tooltip="Packing method for the views",
-        ),
-    ] = "auto"
-
     bit_depth: Annotated[
         int,
         Dropdown(

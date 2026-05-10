@@ -13,7 +13,7 @@ import vapoursynth as vs
 from jetpytools import cround
 
 from ...types import Frame, Time
-from ..packing import AlphaNotImplementedError, CythonPacker, Packer
+from ..packing import Packer
 from ..settings import SettingsManager
 from ..utils import LRUCache, cache_clip
 
@@ -115,14 +115,7 @@ class VideoOutput:
             self.prepared_clip = clip
         else:
             try:
-                try:
-                    self.prepared_clip = self.packer.pack_clip(clip, self.vs_output.alpha or self._alpha_prop)
-                except AlphaNotImplementedError as e:
-                    if SettingsManager.global_settings.view.packing_method != "auto":
-                        logger.warning("%s, falling back to Cython packer", e)
-
-                    self.packer = CythonPacker(SettingsManager.global_settings.view.bit_depth)
-                    self.prepared_clip = self.packer.pack_clip(clip, self.vs_output.alpha or self._alpha_prop)
+                self.prepared_clip = self.packer.pack_clip(clip, self.vs_output.alpha or self._alpha_prop)
             except Exception as e:
                 raise RuntimeError(f"Failed to pack clip with the message: '{e}'") from e
 

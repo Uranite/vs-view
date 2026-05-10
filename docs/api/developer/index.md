@@ -92,7 +92,6 @@ Most of these symbols are re-exported through the top-level `vsview.api` module 
     options:
         heading_level: 3
         members:
-           - get_packer 
            - Packer 
            - run_in_background
            - run_in_loop

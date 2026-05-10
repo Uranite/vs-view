@@ -36,6 +36,9 @@ dependencies = [
     "niquests>=3.18.2",
 ]
 
+[project.optional-dependencies]
+vsfpng = ["vsfpng>=1.2"]
+
 [project.entry-points.vsview]
 vsview_comp = "vsview_comp"
 

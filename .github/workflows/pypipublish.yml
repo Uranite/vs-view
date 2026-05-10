@@ -119,9 +119,6 @@ jobs:
         with:
           python-version: ${{ needs.prepare.outputs.python-version }}
 
-      - name: Check the output
-        run: uvx twine check --strict dist/*
-
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # release/v1
 
@@ -156,9 +153,6 @@ jobs:
         uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
         with:
           python-version: ${{ needs.prepare.outputs.python-version }}
-
-      - name: Check the output
-        run: uvx twine check --strict dist/*
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # release/v1

@@ -1801,6 +1801,51 @@ wheels = [
 ]
 
 [[package]]
+name = "vapoursynth-akarin"
+version = "1.4.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "vapoursynth" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/49/b6/98a4e918177a787e176c6a526d30afa9ce631671cb444b46b859fa13c645/vapoursynth_akarin-1.4.0.tar.gz", hash = "sha256:2a459d8ce43e96f5fd1d72ed8b6dba1b84a2e4781c4de4d6b6f8140b21a80f08", size = 537980, upload-time = "2026-04-23T14:55:35.153Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/17/82/835dbb56c0cecf19b4b82845410b03b603253b72e5d1912a71deb59132b1/vapoursynth_akarin-1.4.0-py3-none-macosx_14_0_arm64.whl", hash = "sha256:dae8fecd6a54cecd5c2b4a9fb2ca2d94c89ce091b44936189250d48fe9889ab8", size = 22472256, upload-time = "2026-04-23T14:55:25.099Z" },
+    { url = "https://files.pythonhosted.org/packages/7f/01/3a8388fcfc1c3a10604373da94f49ab5310cf3c950c0c5f510e44b79f638/vapoursynth_akarin-1.4.0-py3-none-manylinux_2_39_x86_64.manylinux_2_42_x86_64.whl", hash = "sha256:a27ca3e6bdbc6d4564ce06857d283a3dd9697c5027419029f6b3153c925fcf9a", size = 30406340, upload-time = "2026-04-23T14:55:28.871Z" },
+    { url = "https://files.pythonhosted.org/packages/eb/e0/f9ca791a7f6ac4aa588d4b67ad884c2229dddb3400c3166089c9111f8efa/vapoursynth_akarin-1.4.0-py3-none-win_amd64.whl", hash = "sha256:787c199d3886ca28794006b515f176b11c708f5b478ae3b561b49004e500e204", size = 25892735, upload-time = "2026-04-23T14:55:32.538Z" },
+]
+
+[[package]]
+name = "vapoursynth-bestsource"
+version = "17.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "vapoursynth" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/9c/33/af25c98750bb2eb9b1af65386b2cec16ff2da818e9f5efe9fedb2e6284f6/vapoursynth_bestsource-17.0.tar.gz", hash = "sha256:b9d27bb69755fa4bace60fb5d74c3db413dde1a084d15236a58b1d453fbb7aa3", size = 13002271, upload-time = "2026-04-06T18:54:59.64Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/55/1d/7741d68b7af2ee85423c489148fb37be32f4b7c80ac8483c290d78f59167/vapoursynth_bestsource-17.0-py3-none-macosx_15_0_arm64.whl", hash = "sha256:46dc6400495625f5fbd4e4acdafb8a6a6f107bb62e17fed756a4b22df8bf6242", size = 8894245, upload-time = "2026-04-06T18:54:46.669Z" },
+    { url = "https://files.pythonhosted.org/packages/5d/29/4e62edafdba5360dea5c24e3de9d29254544ba8c3682b0a70c35fd6cc7b1/vapoursynth_bestsource-17.0-py3-none-macosx_15_0_x86_64.whl", hash = "sha256:411140d14c331524bcc788938f0c9fa3b34d4ef63d8d8119f54171437fc6d869", size = 10575253, upload-time = "2026-04-06T18:54:49.25Z" },
+    { url = "https://files.pythonhosted.org/packages/29/27/ba2ffb9560241132386de68ae24a14c8ddfe22c266013f02c85e6c2bd271/vapoursynth_bestsource-17.0-py3-none-manylinux_2_28_aarch64.whl", hash = "sha256:6b06b35fb7d1ca555ac3f66695fae858517d197e2fdc889afdc0dd9e71eb881b", size = 12116766, upload-time = "2026-04-06T18:54:51.69Z" },
+    { url = "https://files.pythonhosted.org/packages/f9/e6/06502749fb634cbdb39ee0965dd08fefd8b34eff0bbd264bbc672ffab7ab/vapoursynth_bestsource-17.0-py3-none-manylinux_2_28_x86_64.whl", hash = "sha256:03387ddae83c0e1e2223ca64488997645d50193e9c893543fc3e0ebd5769d8ca", size = 13506228, upload-time = "2026-04-06T18:54:54.434Z" },
+    { url = "https://files.pythonhosted.org/packages/a6/83/227545934a58ed246bf854ea96b60efd0124ead4f0fc96e765f7974e5fef/vapoursynth_bestsource-17.0-py3-none-win_amd64.whl", hash = "sha256:645cd742aff3baa92ff4e743c0db20c8d52f9f347ee05472b3d88b0d88f99027", size = 12977404, upload-time = "2026-04-06T18:54:56.903Z" },
+]
+
+[[package]]
+name = "vapoursynth-fftspectrum-rs"
+version = "1.0.13"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "vapoursynth" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/13/56/9771adfbc1195017e887142cf03253316efac3d21d2f7f10900bdcf628df/vapoursynth_fftspectrum_rs-1.0.13.tar.gz", hash = "sha256:bd2347222d833d82ba8f3b4e4cf45aea6276b7c48e5c3eb510198520bf15ebe6", size = 3020922, upload-time = "2026-04-27T15:29:58.411Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bc/3f/f87efae03c8e204ff706ce04928979b53e48a91e4f498da98e6416b50d9e/vapoursynth_fftspectrum_rs-1.0.13-py3-none-macosx_11_0_arm64.whl", hash = "sha256:31772ed484ec60e1c85a4f60adb7c401d4c295a283935086910c6e656f6670d0", size = 331148, upload-time = "2026-04-27T15:29:51.823Z" },
+    { url = "https://files.pythonhosted.org/packages/7e/b2/1a7b2cba6454c422863c2a351e5533e3d5114b5711d70b86f72beddaeef0/vapoursynth_fftspectrum_rs-1.0.13-py3-none-manylinux_2_28_aarch64.whl", hash = "sha256:f6623874f4afa4cc24b853685c2c78d4e2e7e0028d54cb265764b1fbf174d978", size = 350721, upload-time = "2026-04-27T15:29:53.249Z" },
+    { url = "https://files.pythonhosted.org/packages/c0/85/6551be73450110449ac509b9f36d33458e48875dcfc27e570dcf4cc2502f/vapoursynth_fftspectrum_rs-1.0.13-py3-none-manylinux_2_28_x86_64.whl", hash = "sha256:229738b5be3147cfdca9a1388c05c8f76e856a52a9b468f9e175970c7d83e4fc", size = 512278, upload-time = "2026-04-27T15:29:54.89Z" },
+    { url = "https://files.pythonhosted.org/packages/57/92/7409c611b1e71fe2cba74d1a0bb0c8c31037f55de077b65545f493b81fdf/vapoursynth_fftspectrum_rs-1.0.13-py3-none-win_amd64.whl", hash = "sha256:6413142fe9760f42739e450be67d1317a5762dcd2761f66bb68d710e03879300", size = 388295, upload-time = "2026-04-27T15:29:56.695Z" },
+]
+
+[[package]]
 name = "vsfpng"
 version = "1.2"
 source = { registry = "https://pypi.org/simple" }
@@ -1906,6 +1951,7 @@ dependencies = [
     { name = "rich" },
     { name = "typing-extensions", marker = "python_full_version < '3.13'" },
     { name = "vapoursynth" },
+    { name = "vapoursynth-bestsource" },
     { name = "vsjetengine" },
     { name = "vspackrgb" },
     { name = "vsview-cli" },
@@ -1976,6 +2022,7 @@ requires-dist = [
     { name = "rich", specifier = ">=15.0.0" },
     { name = "typing-extensions", marker = "python_full_version < '3.13'", specifier = ">=4.15.0" },
     { name = "vapoursynth", specifier = ">=75" },
+    { name = "vapoursynth-bestsource", specifier = ">=17.0" },
     { name = "vsjetengine", specifier = ">=1.2.0" },
     { name = "vspackrgb", editable = "src/vspackrgb" },
     { name = "vsview-cli", editable = "src/vsview-cli" },
@@ -2089,12 +2136,14 @@ provides-extras = ["vsfpng"]
 name = "vsview-fftspectrum"
 source = { editable = "src/plugins/fftspectrum" }
 dependencies = [
+    { name = "vapoursynth-fftspectrum-rs" },
     { name = "vsjetpack" },
     { name = "vsview" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "vapoursynth-fftspectrum-rs", specifier = ">=1.0.13" },
     { name = "vsjetpack", specifier = ">=1.1.0" },
     { name = "vsview", editable = "." },
 ]
@@ -2130,12 +2179,14 @@ wheels = [
 name = "vsview-split-planes"
 source = { editable = "src/plugins/split-planes" }
 dependencies = [
+    { name = "vapoursynth-akarin" },
     { name = "vsjetpack" },
     { name = "vsview" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "vapoursynth-akarin", specifier = ">=1.4.0" },
     { name = "vsjetpack", specifier = ">=1.1.0" },
     { name = "vsview", editable = "." },
 ]

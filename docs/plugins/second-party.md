@@ -151,9 +151,6 @@ You can explicitly exclude specific outputs by passing the `allow_comp` keyword 
 
 The FFT Spectrum tool provides a visualization of the Fast Fourier Transform (FFT) spectrum of all the planes of a video clip.
 
-### VapourSynth Requirements
-- [**fftspectrum_rs**](https://github.com/sgt0/vapoursynth-fftspectrum-rs)
-
 ---
 
 ## FrameProps Extended [ :fontawesome-brands-github: ](https://github.com/Jaded-Encoding-Thaumaturgy/vs-view/tree/main/src/plugins/frameprops-extended){ title="Source Code" }
@@ -167,7 +164,6 @@ The FFT Spectrum tool provides a visualization of the Fast Fourier Transform (FF
     uv add vsview-frameprops-extended
     ```
 This plugin adds more categories and formatters to the built-in [Frame Properties](first-party.md#frame-properties) panel.
-
 
 ---
 

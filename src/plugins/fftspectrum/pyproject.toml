@@ -23,7 +23,11 @@ classifiers = [
     "Operating System :: OS Independent",
     "Typing :: Typed",
 ]
-dependencies = ["vsview", "vsjetpack>=1.1.0"]
+dependencies = [
+    "vsview",
+    "vsjetpack>=1.1.0",
+    "vapoursynth-fftspectrum-rs>=1.0.13",
+]
 
 [project.entry-points.vsview]
 vsview_fftspectrum = "vsview_fftspectrum"

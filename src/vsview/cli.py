@@ -65,11 +65,11 @@ def main(argv: Sequence[str] | None = None) -> None:
             console.print(GlobalSettings.path_env)
         if cfg.settings.wipe:
             GlobalSettings.path_env.unlink(missing_ok=True)
-            console.print("Global config file sucessfully deleted.")
+            console.print("Global config file successfully deleted.")
 
             if cfg.settings.wipe.all:
                 GlobalSettings.config_path.rmdirs(missing_ok=True, ignore_errors=True)
-                console.print("Global config path sucessfully deleted.")
+                console.print("Global config path successfully deleted.")
         raise SystemExit(0)
 
     # Setup env vars

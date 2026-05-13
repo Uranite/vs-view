@@ -116,7 +116,7 @@ class AppearanceSettings(BaseModel):
         str | None,
         Dropdown(
             label="Style",
-            items=[(k.title(), k) for k in QStyleFactory.keys()],  # noqa: SIM118
+            items=[(k.title(), k.lower()) for k in QStyleFactory.keys()],  # noqa: SIM118
             tooltip=(
                 "Application style.\n"  #
                 "You may have to restart the application for the changes to fully take effect."

@@ -86,6 +86,8 @@ class Application(QApplication):
         SecretsManager()
 
         self.setStyle(SettingsManager.global_settings.appearance.style or "")
+        SettingsManager.global_settings.appearance.style = self.style().name().lower()
+
         if (theme := SettingsManager.global_settings.appearance.theme) is not None:
             self.styleHints().setColorScheme(theme)
         else:

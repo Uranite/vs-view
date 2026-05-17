@@ -20,7 +20,8 @@ _logger = getLogger(__name__)
 
 type VideoNodeIterable = Iterable[vs.VideoNode | VideoNodeIterable]
 type AudioNodeIterable = Iterable[vs.AudioNode | AudioNodeIterable]
-type OutputNode = vs.VideoNode | vs.AudioNode | VideoNodeIterable | AudioNodeIterable
+type RawNodeIterable = Iterable[vs.RawNode | RawNodeIterable]
+type OutputNode = vs.VideoNode | vs.AudioNode | vs.RawNode | VideoNodeIterable | AudioNodeIterable | RawNodeIterable
 
 # ScenesT = Keyframes | list[tuple[int, int]] | list[Keyframes | list[tuple[int, int]]] | None
 
@@ -102,14 +103,28 @@ def set_output(
 
 
 @overload
+def set_output(node: vs.RawNode, index: int | Sequence[int] = ..., /, **kwargs: Any) -> None: ...
+
+
+@overload
+def set_output(node: vs.RawNode, name: str | bool | None = ..., /, **kwargs: Any) -> None: ...
+
+
+@overload
 def set_output(
-    node: VideoNodeIterable | AudioNodeIterable, index: int | Sequence[int] = ..., /, **kwargs: Any
+    node: VideoNodeIterable | AudioNodeIterable | RawNodeIterable,
+    index: int | Sequence[int] = ...,
+    /,
+    **kwargs: Any,
 ) -> None: ...
 
 
 @overload
 def set_output(
-    node: VideoNodeIterable | AudioNodeIterable, name: str | bool | None = ..., /, **kwargs: Any
+    node: VideoNodeIterable | AudioNodeIterable | RawNodeIterable,
+    name: str | bool | None = ...,
+    /,
+    **kwargs: Any,
 ) -> None: ...
 
 

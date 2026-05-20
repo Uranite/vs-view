@@ -1,9 +1,12 @@
 from collections.abc import Iterator, Sequence
 from contextlib import contextmanager
+from typing import Any
 
+from jetpytools import copy_signature
 from PySide6.QtCore import (
     QAbstractTableModel,
     QEasingCurve,
+    QEvent,
     QModelIndex,
     QPoint,
     QPointF,
@@ -16,7 +19,7 @@ from PySide6.QtCore import (
     Signal,
     Slot,
 )
-from PySide6.QtGui import QBrush, QColor, QMouseEvent, QPainter, QPaintEvent, QPalette, QShowEvent
+from PySide6.QtGui import QBrush, QColor, QMouseEvent, QPainter, QPaintEvent, QPalette, QResizeEvent, QShowEvent
 from PySide6.QtWidgets import (
     QBoxLayout,
     QButtonGroup,
@@ -35,6 +38,113 @@ from PySide6.QtWidgets import (
 )
 
 from ...assets import loading_icon
+
+
+class _OverlayWidget(QWidget):
+    def __init__(self, parent: QWidget | None = None) -> None:
+        super().__init__(parent)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.setVisible(False)
+
+    def event(self, event: QEvent) -> bool:
+        if event.type() in (
+            QEvent.Type.MouseButtonPress,
+            QEvent.Type.MouseButtonRelease,
+            QEvent.Type.MouseButtonDblClick,
+            QEvent.Type.MouseMove,
+            QEvent.Type.Wheel,
+            QEvent.Type.HoverEnter,
+            QEvent.Type.HoverLeave,
+            QEvent.Type.HoverMove,
+            QEvent.Type.TabletPress,
+            QEvent.Type.TabletRelease,
+            QEvent.Type.TabletMove,
+            QEvent.Type.TouchBegin,
+            QEvent.Type.TouchUpdate,
+            QEvent.Type.TouchEnd,
+            QEvent.Type.TouchCancel,
+            QEvent.Type.ContextMenu,
+        ):
+            event.accept()
+            return True
+        return super().event(event)
+
+
+class BlockableWidget(QWidget):
+    """
+    A widget that can block all user interactions (mouse, keyboard, etc.)
+    """
+
+    @copy_signature(QWidget.__init__)
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        self._blocked = False
+        self._overlay = _OverlayWidget(self)
+
+    def setEnabled(self, arg__1: bool) -> None:
+        self.blocked = not arg__1
+        return super().setEnabled(arg__1)
+
+    def setDisabled(self, arg__1: bool) -> None:
+        self.blocked = arg__1
+        return super().setDisabled(arg__1)
+
+    @contextmanager
+    def block(self) -> Generator[None]:
+        was_blocked = self._blocked
+        self.set_blocked(True)
+        try:
+            yield
+        finally:
+            self.set_blocked(was_blocked)
+
+    def set_blocked(self, value: bool) -> None:
+        if self._blocked != value:
+            self._blocked = value
+            if value:
+                # Clear focus from any active descendant to prevent keyboard input
+                window = self.window()
+                if window:
+                    focused = window.focusWidget()
+                    if focused and (focused is self or self.isAncestorOf(focused)):
+                        focused.clearFocus()
+                self._overlay.setGeometry(self.rect())
+                self._overlay.show()
+                self._overlay.raise_()
+            else:
+                self._overlay.hide()
+            self.update()
+
+    @property
+    def blocked(self) -> bool:
+        return self._blocked
+
+    @blocked.setter
+    def blocked(self, value: bool) -> None:
+        self.set_blocked(value)
+
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        super().resizeEvent(event)
+        self._overlay.setGeometry(self.rect())
+
+    def focusNextPrevChild(self, next: bool) -> bool:
+        # Prevent tab focus transition when blocked
+        if self._blocked:
+            return False
+        return super().focusNextPrevChild(next)
+
+    def event(self, event: QEvent) -> bool:
+        if self._blocked and event.type() in (
+            QEvent.Type.KeyPress,
+            QEvent.Type.KeyRelease,
+            QEvent.Type.FocusIn,
+            QEvent.Type.FocusOut,
+            QEvent.Type.Shortcut,
+            QEvent.Type.ShortcutOverride,
+        ):
+            event.accept()
+            return True
+        return super().event(event)
 
 
 class SegmentedControl(QWidget):

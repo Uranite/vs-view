@@ -34,7 +34,7 @@ from ..outputs import AudioOutput, OutputsManager, VideoOutput
 from ..plugins.api import PluginAPI, WidgetPluginBase
 from ..settings import ActionID, ShortcutManager
 from ..views import PluginDock, PluginSplitter
-from ..views.components import CustomLoadingPage, DockButton
+from ..views.components import BlockableWidget, CustomLoadingPage, DockButton
 from ..views.tab import TabViewWidget
 from ..views.timeline import TimelineControlBar
 from ..views.video import ViewState
@@ -101,7 +101,7 @@ class LoaderWorkspace[T](BaseWorkspace):
         self.stack.addWidget(self.loading_page)
 
         # Loaded State
-        self.loaded_page = QWidget(self)
+        self.loaded_page = BlockableWidget(self)
         self.loaded_layout = QVBoxLayout(self.loaded_page)
         self.loaded_layout.setContentsMargins(0, 0, 0, 0)
         self.loaded_layout.setSpacing(0)
@@ -618,6 +618,7 @@ class LoaderWorkspace[T](BaseWorkspace):
                     self.set_loading_page()
                 else:
                     # Disable the loaded page if the frame takes too much time (50 ms) to render
+                    self.loaded_page.blocked = True
                     timer_disable = QTimer(self, singleShot=True, timerType=Qt.TimerType.PreciseTimer)
                     timer_disable.timeout.connect(lambda: self.loaded_page.setDisabled(True))
                     timer_disable.start(50)

@@ -543,6 +543,7 @@ class LoaderWorkspace[T](BaseWorkspace):
     @run_in_loop(return_future=False)
     def set_loading_page(self) -> None:
         logger.debug("Switching to loading page")
+        self._is_failed = False
         self.stack.setCurrentWidget(self.loading_page)
 
     @run_in_loop(return_future=False)

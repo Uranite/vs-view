@@ -305,8 +305,7 @@ class LoaderWorkspace[T](BaseWorkspace):
         unset_environment()
         self.init_load(frame, time, tab_index)
 
-        with loader_lock:
-            outputs = self._get_outputs()
+        outputs = self._get_outputs()
 
         if not outputs:
             self.clear_failed_load()
@@ -384,8 +383,8 @@ class LoaderWorkspace[T](BaseWorkspace):
                     evict_packages(local_packages)
                     logger.info("Local packages reloaded: %r", sorted(local_packages))
 
-                # 3. Load New Content
-                outputs = self._get_outputs()
+            # 3. Load New Content
+            outputs = self._get_outputs()
 
             if not outputs:
                 self.clear_failed_load()

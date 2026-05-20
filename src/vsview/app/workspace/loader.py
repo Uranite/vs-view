@@ -223,19 +223,7 @@ class LoaderWorkspace[T](BaseWorkspace):
         sm.register_shortcut(ActionID.COPY_CURRENT_FRAME, self._copy_current_frame_to_clipboard, self.loaded_page)
         sm.register_shortcut(ActionID.COPY_CURRENT_TIME, self._copy_current_time_to_clipboard, self.loaded_page)
 
-        tab_actions = (
-            ActionID.SWITCH_TAB_0,
-            ActionID.SWITCH_TAB_1,
-            ActionID.SWITCH_TAB_2,
-            ActionID.SWITCH_TAB_3,
-            ActionID.SWITCH_TAB_4,
-            ActionID.SWITCH_TAB_5,
-            ActionID.SWITCH_TAB_6,
-            ActionID.SWITCH_TAB_7,
-            ActionID.SWITCH_TAB_8,
-            ActionID.SWITCH_TAB_9,
-        )
-        for i, action in enumerate(tab_actions):
+        for i, action in enumerate(act for act in ActionID if act.name.startswith("SWITCH_TAB_")):
             sm.register_shortcut(action, partial(self.tab_manager.switch_tab, i), self)
 
         sm.register_shortcut(ActionID.SWITCH_PREVIOUS_TAB, lambda: self.tab_manager.switch_tab(delta=-1), self)

@@ -103,11 +103,19 @@ def main(argv: Sequence[str] | None = None) -> None:
     main_window.show()
 
     if cfg.files:
+        video_files = []
+        script_files = []
         for file in cfg.files:
             if file.suffix in [".py", ".vpy"]:
-                main_window.load_new_script(file, **cfg.arg)
+                script_files.append(file)
             else:
-                main_window.load_new_file(file)
+                video_files.append(file)
+                
+        for file in script_files:
+            main_window.load_new_script(file, **cfg.arg)
+            
+        if video_files:
+            main_window.load_new_file(video_files[0], video_files[1:])
     else:
         app.processEvents()
         # Now create default workspaces

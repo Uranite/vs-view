@@ -343,34 +343,42 @@ class VideoFileWorkspace(GenericFileWorkspace):
         ),
     )
 
+    def __init__(self, parent: QWidget | None = None) -> None:
+        super().__init__(parent)
+        self.additional_files: list[Path] = []
+
     def loader(self) -> None:
-        if not self.content.exists():
-            logger.error("File not found: %s", self.content)
-            raise FileNotFoundError(f"File not found: {self.content}")
+        paths = [self.content, *self.additional_files]
+        for p in paths:
+            if not p.exists():
+                logger.error("File not found: %s", p)
+                raise FileNotFoundError(f"File not found: {p}")
 
         try:
             with self.env.use():
                 if not hasattr(self.env.core, "bs"):
                     raise RuntimeError("The BestSource plugin 'bs' is required to load a file")
 
-                self._source().set_output()
+                for i, p in enumerate(paths):
+                    self._source(p).set_output(i)
         except Exception:
             logger.exception("There was an error:")
             raise
 
         logger.debug("Loaded file: %s", self.content)
 
-    def _source(self) -> VideoNode:
+    def _source(self, path: Path | None = None) -> VideoNode:
+        path = path or self.content
         if find_spec("vssource"):
             from vssource import BestSource
 
             try:
-                return BestSource(show_pretty_progress=True).source(self.content, 0)
+                return BestSource(show_pretty_progress=True).source(path, 0)
             except Exception as e:
                 logger.warning("vssource.BestSource failed to index with the error %r", str(e))
 
         logger.info("Using fallback bs.VideoSource...")
-        return self.env.core.bs.VideoSource(str(self.content))
+        return self.env.core.bs.VideoSource(str(path))
 
 
 class PythonScriptWorkspace(GenericFileWorkspace, VSEngineWorkspace[Path]):

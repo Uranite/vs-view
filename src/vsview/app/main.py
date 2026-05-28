@@ -287,8 +287,10 @@ class MainWindow(QMainWindow):
         btn.workspace.vsargs = vsargs
         btn.workspace.load_content(path)
 
-    def load_new_file(self, path: Path) -> None:
+    def load_new_file(self, path: Path, additional_paths: list[Path] | None = None) -> None:
         btn = self.add_workspace(VideoFileWorkspace)
+        if additional_paths:
+            btn.workspace.additional_files = additional_paths
         btn.workspace.load_content(path)
 
     def add_workspace[WorkspaceT: BaseWorkspace](

@@ -103,18 +103,20 @@ def main(argv: Sequence[str] | None = None) -> None:
     main_window.show()
 
     if cfg.files:
-        video_files = []
         script_files = []
+        video_files = []
         for file in cfg.files:
             if file.suffix in [".py", ".vpy"]:
                 script_files.append(file)
             else:
                 video_files.append(file)
                 
-        for file in script_files:
-            main_window.load_new_script(file, **cfg.arg)
-            
-        if video_files:
+        if script_files:
+            main_script = script_files[0]
+            # Use all other files (including other scripts, though they might fail to load as video) as additional paths
+            additional_paths = [f for f in cfg.files if f != main_script]
+            main_window.load_new_script(main_script, additional_paths=additional_paths, **cfg.arg)
+        elif video_files:
             main_window.load_new_file(video_files[0], video_files[1:])
     else:
         app.processEvents()

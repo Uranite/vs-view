@@ -282,9 +282,11 @@ class MainWindow(QMainWindow):
 
         super().closeEvent(event)
 
-    def load_new_script(self, path: Path, **vsargs: Any) -> None:
+    def load_new_script(self, path: Path, additional_paths: list[Path] | None = None, **vsargs: Any) -> None:
         btn = self.add_workspace(PythonScriptWorkspace)
         btn.workspace.vsargs = vsargs
+        if additional_paths:
+            btn.workspace.additional_files = additional_paths
         btn.workspace.load_content(path)
 
     def load_new_file(self, path: Path, additional_paths: list[Path] | None = None) -> None:

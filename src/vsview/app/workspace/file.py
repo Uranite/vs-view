@@ -388,10 +388,47 @@ class PythonScriptWorkspace(GenericFileWorkspace, VSEngineWorkspace[Path]):
     filters = (GenericFileWorkspace.FileFilter("Python & VapourSynth Files", ["py", "vpy"]),)
 
     content_type = "script"
+    
+    def __init__(self, parent: QWidget | None = None) -> None:
+        super().__init__(parent)
+        self.additional_files: list[Path] = []
 
     def loader(self) -> None:
         if not self.content.exists():
             logger.error("File not found: %s", self.content)
             raise FileNotFoundError(f"File not found: {self.content}")
+            
+        for p in self.additional_files:
+            if not p.exists():
+                logger.error("File not found: %s", p)
+                raise FileNotFoundError(f"File not found: {p}")
 
-        return super().loader()
+        super().loader()
+        
+        if self.additional_files:
+            with self.env.use():
+                if not hasattr(self.env.core, "bs"):
+                    raise RuntimeError("The BestSource plugin 'bs' is required to load additional media files")
+                    
+                import vapoursynth as vs
+                
+                try:
+                    outputs = vs.get_outputs()
+                    max_index = max(outputs.keys()) if outputs else -1
+                except Exception:
+                    max_index = -1
+                    
+                for i, p in enumerate(self.additional_files, start=max_index + 1):
+                    self._source(p).set_output(i)
+                
+    def _source(self, path: Path) -> VideoNode:
+        if find_spec("vssource"):
+            from vssource import BestSource
+
+            try:
+                return BestSource(show_pretty_progress=True).source(path, 0)
+            except Exception as e:
+                logger.warning("vssource.BestSource failed to index with the error %r", str(e))
+
+        logger.info("Using fallback bs.VideoSource...")
+        return self.env.core.bs.VideoSource(str(path))

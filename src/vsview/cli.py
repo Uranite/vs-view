@@ -137,11 +137,17 @@ def main(argv: Sequence[str] | None = None) -> None:
     main_window.show()
 
     if cfg.files:
-        for file in cfg.files:
-            if file.suffix in [".py", ".vpy"]:
-                main_window.load_new_script(file, **cfg.arg)
-            else:
-                main_window.load_new_file(file)
+        scripts = [f for f in cfg.files if f.suffix in [".py", ".vpy"]]
+        if scripts:
+            main_file = scripts[0]
+            btn = main_window.add_workspace(PythonScriptWorkspace)
+            btn.workspace.vsargs = cfg.arg
+        else:
+            main_file = cfg.files[0]
+            btn = main_window.add_workspace(VideoFileWorkspace)
+            
+        btn.workspace.additional_files = [f for f in cfg.files if f != main_file]
+        btn.workspace.load_content(main_file)
     elif cfg.workspace:
         PluginManager.wait_for_loaded()
         app.processEvents()
